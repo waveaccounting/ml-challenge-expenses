@@ -19,7 +19,3 @@ def parse_csv_data(input_file):
 
     return data_list, header_list
 
-
-# print validation_data_header
-# for d in validation_data_list:
-#     print d
