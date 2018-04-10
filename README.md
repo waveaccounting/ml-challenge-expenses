@@ -6,6 +6,7 @@ or with jupyter notebook (using main_wave_ml_challenge.ipynb).
 First install the requirements using:
 
 pip3 install --upgrade -r Requirements.txt
+
 python3 main_wave_ml_challenge.py
 
 This will print out the best classifier selected using cross validation along with the
