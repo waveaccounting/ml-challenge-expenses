@@ -24,6 +24,8 @@ While there may be value in other fields like employee type but for this exercis
 
 1. Instructions on how to run your application<br/>
 The application has been tested with Python 3.6.1. Each python notebook has commands to install the dependencies if they are not already available. Jupyter lab would be perfect to use for running the notebooks but jupyter notebook should also work.<br/>
+The models rely on pretrained vectors obtained from here: https://nlp.stanford.edu/projects/glove/ <br/>
+I have included the 50d word vectors file in the github repo, this is not ideal but will get the job done for now. This should be distributed in a better way.  
 
 2. A paragraph or two about what what algorithm was chosen for which problem, why (including pros/cons) and what you are particularly proud of in your implementation, and why <br/>
 See Answer section for a description of models. <br/>
