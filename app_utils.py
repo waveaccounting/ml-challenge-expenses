@@ -6,7 +6,8 @@ from keras.utils.np_utils import to_categorical
 import matplotlib.pyplot as plt
 from keras.layers import Dense, LSTM, Embedding
 from keras.models import Sequential
-from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import Tokenizer,text_to_word_sequence
+
 from keras.utils.np_utils import to_categorical
 from keras.preprocessing.sequence import pad_sequences
 
@@ -76,6 +77,27 @@ def prepare_data(df_train,df_val,categories):
     y_val = category_to_one_hot(df_val['category'].values,categories) 
     return tk.word_index,x_train,y_train,x_val,y_val
 
+def prepare_data_from_full_word_index(df_train,df_val,categories,word_index):
+    train_text = df_train['expense description'].tolist()
+    val_text = df_val['expense description'].tolist()
+    x_train = get_pad_sequences(train_text,word_index)
+    x_val = get_pad_sequences(val_text,word_index)
+    y_train = category_to_one_hot(df_train['category'].values,categories)
+    y_val = category_to_one_hot(df_val['category'].values,categories) 
+    return word_index,x_train,y_train,x_val,y_val
+
+def get_pad_sequences(text_list,word_index):
+    seqs = []
+    for text in text_list:
+        word_seq = text_to_word_sequence(text.lower())
+        seq = []
+        for word in word_seq:
+          if word in word_index:
+            seq.append(word_index[word])
+        seqs.append(seq)
+    return pad_sequences(seqs,maxlen)
+
+
 # Convert the list of categories to one_hot vector
 def category_to_one_hot(cat_list,cat_master):
     cat_dict = {}
@@ -89,10 +111,10 @@ def one_hot_to_category(cat_one_hot_list,cat_master):
     return [cat_master[cat_one_hot.argmax()] for cat_one_hot in cat_one_hot_list]
 
 # Get the embedding weights for the model
-def get_embedding_matrix_for_model(tk_word_index,embeddings,word_index):
-    train_val_words = min(vocab_size, len(tk_word_index)) +1
+def get_embedding_matrix_for_model(embeddings,word_index):
+    train_val_words = min(vocab_size, len(word_index)) +1
     embedding_matrix = np.zeros((train_val_words, embedding_size))
-    for word, i in tk_word_index.items():
+    for word, i in word_index.items():
         embedding_vector = get_embedding(word,word_index,embeddings).flatten()
         if embedding_vector is not None: 
             embedding_matrix[i] = embedding_vector
