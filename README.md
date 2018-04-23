@@ -47,6 +47,21 @@ Please modify `README.md` to add:
 1. A paragraph or two about what what algorithm was chosen for which problem, why (including pros/cons) and what you are particularly proud of in your implementation, and why
 1. Overall performance of your algorithm(s)
 
+
+	* naive_bayes_category_classifier.py - a learning model that assigns each expense transaction to one of the set of predefined categories
+		* the algorithm uses naive Bayes approach
+		* Example: P(Travel | Taxi ride) = P(Taxi ride | Travel)*P(Travel)/(SUM_{all categories}P(Taxi ride | some_category)*P(some_category))
+			= P(Taxi | Travel)*P(ride | Travel)* P(other words NOT present | Travel) * P(Travel)
+			   / (SUM_{all categories}P(Taxi | some_category)*P(Ride | some_category)*P(some_category))
+		* The output of the algorithm is the probability vector for each category. The category with the highest probability is acquired.
+		* The algorithm is naive while assuming data independence between the keywords. This explains the success rate of about 90%.
+		* A "non-naive" algorithm would give 100% accuracy, but would be impractical
+	* expenses_classifier.py - the algorithm, which separates potential personal expenses in the training data
+		* Using K-mean algorithm for assigning the cluster for every line of the expenses
+		* the algorithm converts the expense data into points, based on the key words,and separates the data into 2 clusters
+		* after the separation, it checks which cluster is "business" and which one is "personal"
+		* The algorithm seems to give a descent level of accuracy while converging to the final partition just after a few iterations
+
 ## Submission Instructions
 
 1. Fork this project on github. You will need to create an account if you don't already have one.
