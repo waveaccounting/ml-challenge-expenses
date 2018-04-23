@@ -109,7 +109,7 @@ def category_key_words(training_list, category_name): # returns the array with t
 
 #################################################
 # Main program
-Epsilon = 0.01 # in order to resolve potential issues of division by 0
+Epsilon = 0.01
 #training_list,   training_header   = parse_csv_data("training_data_example.csv")
 training_list,   training_header   = parse_csv_data("validation_data_example.csv")
 
