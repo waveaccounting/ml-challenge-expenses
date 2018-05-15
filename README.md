@@ -1,70 +1,45 @@
-ML Challenge Markdown
-# Wave Machine Learning Engineer Challenge
-Applicants for the Software Engineer (and Senior), Machine Learning(https://wave.bamboohr.co.uk/jobs/view.php?id=1) role at Wave must complete the following challenge, and submit a solution prior to the onsite interview. 
+To run the code, please type the following.
 
-The purpose of this exercise is to create something that we can work on together during the onsite. We do this so that you get a chance to collaborate with Wavers during the interview in a situation where you know something better than us (it's your code, after all!) 
+```
+python3 main.py
+```
 
-There isn't a hard deadline for this exercise; take as long as you need to complete it. However, in terms of total time spent actively working on the challenge, we ask that you not spend more than a few hours, as we value your time and are happy to leave things open to discussion in the onsite interview.
+# Choice of Algorithm and Potential Improvements
 
-Please use whatever programming language, libraries and framework you feel the most comfortable with.  Preference here at Wave is Python.
+I have chosen logistic regression with lasso, using 5-fold cross-validation to select the optimal regularization factor.
 
-Feel free to email [dev.careers@waveapps.com](dev.careers@waveapps.com) if you have any questions.
+For a real-life project where accuracy is critical, I will probably implement an emsemble of
+models, including logistic regression, SVM, neural network, and random forest, and have them
+vote against each other.
 
-## Project Description
-Continue improvements in automation and enhancing the user experience are keys to what make Wave successful.  Simplifying the lives of our customers through automation is a key initiative for the machine learning team.  Your task is to solve the following questions around automation.
+The following features are used for the LR model selection.
+- Expense month
+- Expense day of the week
+- Expense amount
+- Sales tax state and rate combined into one variables
+- Employee ID
+- Employee address
+- Employee role
+- Unigrams from Expense description
 
-### What your learning application must do:
+Eventually, Lasso has narrowed down the following predictors.
+- Certain unigrams (e.g. computer for Hardware, airplane for Travel)
+- Certain days of the week (e.g. Tuesday for Computer - Hardware)
+- Certain months (e.g. December for Meals and Entertainment)
 
-1. Your application must be able read provided comma separated files. 
+Expense description seems to be the most predictive item. The algorithm can be potentially improved
+by the following.
+- Use also bi- or trigrams.
+- Use word2vec pre-trained on a large corpus.
+- Less granular employee address (e.g. only the city/state instead of the full address)
 
-2. Similarly, your application must accept a separate comma separated file as validation data with the same format.
-3. You can make the following assumptions:
-	* Columns will always be in that order.
-	* There will always be data in each column.
- 	* There will always be a header line.
+For a personal-vs-business classifier (not implemented in code), I would focus on the following
+indicators.
+- Presence of certain words (e.g. coffee, taxi)
+- Lack of certain words (e.g. team)
+- Expense amount (usually rather small)
+- Expense date on weekend or public holiday
 
-An example input files named `training_data_example.csv`, `validation_data_example.csv` and `employee.csv` are included in this repo.  A sample code `file_parser.py` is provided in Python to help get you started with loading all the files.  You are welcome to use if you like.
+# Overall performance of your algorithm(s)
 
-1. Your application must parse the given files.
-2. Your application should train only on the training data but report on its performance for both data sets.
-3. You are free to define appropriate performance metrics, in additional to any predefined, that fit the problem and chosen algorithm.
-4. You are welcome to answer one or more of the following questions.  Also, you are free to drill down further on any of these questions by providing additional insights.
-
-Your application should be easy to run, and should run on either Linux or Mac OS X.  It should not require any non open-source software.
-
-There are many ways and algorithms to solve these questions; we ask that you approach them in a way that showcases one of your strengths. We're happy to tweak the requirements slightly if it helps you show off one of your strengths.
-
-### Questions to answer:
-1. Train a learning model that assigns each expense transaction to one of the set of predefined categories and evaluate it against the validation data provided.  The set of categories are those found in the "category" column in the training data. Report on accuracy and at least one other performance metric.
-2. Mixing of personal and business expenses is a common problem for small business.  Create an algorithm that can separate any potential personal expenses in the training data.  Labels of personal and business expenses were deliberately not given as this is often the case in our system.  There is no right answer so it is important you provide any assumptions you have made.
-3. (Bonus) Train your learning algorithm for one of the above questions in a distributed fashion, such as using Spark.  Here, you can assume either the data or the model is too large/efficient to be process in a single computer.
-
-### Documentation:
-
-Please modify `README.md` to add:
-
-1. Instructions on how to run your application
-2. A paragraph or two about what what algorithm was chosen for which problem, why (including pros/cons) and what you are particularly proud of in your implementation, and why
-3. Overall performance of your algorithm(s)
-
-## Submission Instructions
-
-1. Fork this project on github. You will need to create an account if you don't already have one.
-2. Complete the project as described below within your fork.
-3. Push all of your changes to your fork on github and submit a pull request. 
-4. You should also email [dev.careers@waveapps.com](dev.careers@waveapps.com) and your recruiter to let them know you have submitted a solution. Make sure to include your github username in your email (so we can match applicants with pull requests.)
-
-## Alternate Submission Instructions (if you don't want to publicize completing the challenge)
-1. Clone the repository.
-2. Complete your project as described below within your local repository.
-3. Email a patch file to [dev.careers@waveapps.com](dev.careers@waveapps.com)
-
-## Evaluation
-Evaluation of your submission will be based on the following criteria. 
-
-1. Did you follow the instructions for submission? 
-2. Did you apply an appropriate machine learning algorithm for the problem and why you have chosen it?
-3. What features in the data set were used and why?
-4. What design decisions did you make when designing your models? Why (i.e. were they explained)?
-5. Did you separate any concerns in your application? Why or why not?
-6. Does your solution use appropriate datatypes for the problem as described? 
+Train accuracy: 1.000; Test accuracy: 0.917.
