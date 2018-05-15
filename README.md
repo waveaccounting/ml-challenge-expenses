@@ -1,4 +1,10 @@
-% python3 main.py
+To run the code, please type the following.
+
+```
+python3 main.py
+```
+
+# Choice of Algorithm and Potential Improvements
 
 I have chosen logistic regression with lasso, using 5-fold cross-validation to select the optimal regularization factor.
 
@@ -34,5 +40,6 @@ indicators.
 - Expense amount (usually rather small)
 - Expense date on weekend or public holiday
 
-3. Overall performance of your algorithm(s)
+# Overall performance of your algorithm(s)
+
 Train accuracy: 1.000; Test accuracy: 0.917.
