@@ -1,5 +1,3 @@
-from typing import Set
-from collections import Counter
 from scipy.sparse import vstack
 from sklearn import model_selection, preprocessing
 from sklearn.feature_extraction.text import CountVectorizer
