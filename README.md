@@ -68,3 +68,43 @@ Evaluation of your submission will be based on the following criteria.
 4. What design decisions did you make when designing your models? Why (i.e. were they explained)?
 5. Did you separate any concerns in your application? Why or why not?
 6. Does your solution use appropriate datatypes for the problem as described? 
+"# waveappstest" 
+"# waveappstest" 
+
+
+# Submission Documentation (Nabil's entry)
+
+## Pre-requisites
+1. Python on system with environmental variables set (I use Python 2.7).
+2. Some none-standard libraries might need to be installed if not already there. The main ones are the Scikit-Learn and the IPython 	    distributed computing libraries .
+3. To make things easier there are no file path settings to follow, just ensure that all files are in the same path/folder. However, for    Q3, make sure that copies of the source csv files you provided in the IPython engine default local path at
+   `/Python27/Lib/site-packages/ipyparallel/`
+4. I use PyCharm IDE for working with Python, so a .idea folder is there if you like.
+
+
+## How-to
+There are 4 .py files independent of each other, so you may run them separately in any order you wish: 
+1. `main.py` is the code that implements the main task, namely a sample of an ML miniapp that implements Q1 in your challenge.
+2. `feature_selection.py` is an exercise that shows why I chose the features to use in Q1.
+3. `expense_type_algo.py` is a possible solution for Q2, and.It uses a variant of the csv files you provided with some          	    additional info I put in manually based on some assumptions, which I will explain if you want to go further and meet with 		    me.
+4. `mainWcluster.py` Is my attempt to solve Q3. It is quite basic, as I am not overly familiar with IPython and I had trouble getting 	     python distributed tools like PySPARK on my laptop. It is essentially the same code as in Q1, but running in an ippyparallel client     block.
+
+## What algorithms and why
+
+`Q1`
+The candidate algorithms for this problem were `Naive Bayes(Gaussian)`, `Gradient Boost`, `SVC SVM`, `Linear Regression`, `Logisitic Regression` and `Linear Discriminant Analysis`.` Cross validation` was then conducted to see which would give higher accuracy using the validation set, and the one with highest score is then tested as per question instructions. These were selected because in practice I find them to be the best to deal with a sample of few instances and features, as more complex algorithms and ensembles tend to overfit and bias in such cases (Although realistically how a library or code is actually implementing an algorithm and on what platform tend to factor heavily).
+
+`Q2`
+For this problem I used an NLP(ish) text tokenizing approach to create classification features. I've always wanted to try this type of mining, and this seemed like a good example to try because the only real lead in the training/validatng csv files for differentiating between expenses was the expense description field, and as it's a 'free form' text field a text feature extraction based algorithm seemed a good option. For simplicity's sake and allowing for practical implementation concerns, the classification is split into `business` and needing `review` for reasons again I will explain if we get to talk.
+A promising possible supplement to this algorithm is to factor in employees(i.e. their IDs) in the features as well, since the it is a sensible supposition that certain employees would incur higher business expenses than others (e.g. sales team would have more travel expenses). 
+
+`What am I proud of here?`
+I'm not particularly "proud", at least not yet :) . I've learned to be cautious about ML implementation and what its output means/implies. Things are not always as they seem and practicality concerns can easily break a solution even if it initially works great, so I tend to look for more data to try and a LOT more time in pre-processing before I pat myself on the back. Although it felt pretty rad to get to use text feature extraction for the first time and get a relatively good result so fast. 
+
+## Overall algorithm performance
+
+`Q1`
+Running the code produces a metrics matrix csv file detailing performance. Prediction is around 89 percent accurate using `Gradient Boost`, however `SVM SVC` achieves similar results and would be more efficient and significantly faster (This will particularly matter in the case of distributed computing like in Q3). I should mention that out of curiousity I applied a `Random Forest` ensemble and managed to achieve over 97 percent accuracy, but again the dataset is just much too small for more complex algorithms.
+
+`Q2`
+This is my first experience with the text feature extraction sub-library, so I am not able to make the code test predictions properly yet. However I did try it manually with 10 arbitrary description text entries and it correctly classified 8 of them(Note that dictionary keywords content is necessary for successful prediction, and it would only 'learn' it from the text available in the csv). It obviously needs work and more appropriate testing, but it looks promising and in this field you have to be creative.

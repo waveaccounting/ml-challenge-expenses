@@ -1,0 +1,9 @@
+                         precision    recall  f1-score   support
+
+                 Travel       0.88      0.88      0.88         8
+Meals and Entertainment       0.89      1.00      0.94        17
+    Computer - Hardware       1.00      0.75      0.86         4
+    Computer - Software       0.80      1.00      0.89         4
+        Office Supplies       1.00      0.33      0.50         3
+
+            avg / total       0.90      0.89      0.88        36
