@@ -141,7 +141,7 @@ This notebook tries to address the second problem in the problem set - identifyi
 - Resulting clusters kind of makes sense as has been described in the notebook
 - Tried the cluster model on the validation data as well and that sort of makes sense as well
 
-## spark_random_forest.ipynb
+### spark_random_forest.ipynb
 
 This notebook tries to address the bonus of problem of running one solutio via spark. For this I tried implementing the classification problem. This notebook is not very well documented, I can explain in person if I get the chance. Key summary points:
 
@@ -149,3 +149,30 @@ This notebook tries to address the bonus of problem of running one solutio via s
 - Only used text TF-IDF features
 - Training Accuracy **87.5%**, validation accuracy **83.33%**, precision **100%**, **83%** and f1-score **91%**
 - Tons of improvement possible
+
+## Luigi Solution
+
+[Luigi](Luigi is a Python package that helps you build complex pipelines of batch jobs). I used it to manifest how a real production type pipeline can be developed. I have only included the prediction (classification) pipeline here, not the clustering. However, the clustering can be easily incorporated with some additional effort. The solution is in the `luigi` subfolder. The code is basically taken from the Classification notebook but aranged in a more modular format.
+
+### Classes
+
+- **PreProcessor** pre-processes and vectorizes the data and generates vectorized files
+        - train_processed.csv:  vectorized training data
+        - validation_processed.csv: vectorized validation data
+        - train_processed_tfidf.csv: vectorized training data with only tf-idf features
+        - validation_processed_tfidf.csv: vectorized validation data with only tf-idf features
+        - labels.pkl: a labels files including training and validation labels
+- **Predictor** does the actual classification and generates result files
+	- report.txt: report contaning accuracy and other measurements
+	- comparison.csv: file showing actual and predicted categories side by side
+
+Sample output files are provided with the solution. You can delete those files and rerun `run.sh` to run the entore workflow.
+
+The solution is nowhere close to production-ready and can be further modularized and enhanced in a million way. This was just a manifestation of how pipelines can be developed with modularized tasks.
+
+
+## Conclusion
+
+I have tried different approaches of addressing the solutions. The datasets were very small and nothing I experimented here is conclusive. I have learnt from my experience and real work that models that perform well on small data are not necessarily best for tackling real big data. Also, there is a myriad of ways of improving things.
+
+I am not particularly proud of anything, however, I am glad that I went through the exercise and learnt a lot in the process. I hope I get a chance to present myself in person and discuss in more detail.
