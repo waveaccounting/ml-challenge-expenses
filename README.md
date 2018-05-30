@@ -68,3 +68,16 @@ Evaluation of your submission will be based on the following criteria.
 4. What design decisions did you make when designing your models? Why (i.e. were they explained)?
 5. Did you separate any concerns in your application? Why or why not?
 6. Does your solution use appropriate datatypes for the problem as described? 
+
+## Asif's Notes
+
+### Instructions
+
+My solution is python 3 based and I have presented my solution in 2 ways:
+
+- Jupyter Notebooks for more interactivity
+- A [luigi](https://github.com/spotify/luigi) based solution that kind of simulates (not quite) a real production type run 
+
+For both, you need to have the packages in [requirements.txt](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/requirements.txt) installed:
+
+`pip install -r requirements.txt`
