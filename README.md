@@ -86,12 +86,14 @@ Before proceeding, please install/setup the pre-requisites below. I developed th
 - Install python 3 `brew install python3`
 - Install virtual environment `pip3 install virtualenv`
 - Create a virtual env `virtualenv venv` and activate it `source venv/bin/activate`
-- Do the following as apre-requisite for XGBoost
+- Do the following as a pre-requisite for XGBoost
 ```
 brew install gcc
 brew install gcc@5
 ```
 - Now install the packages in [requirements.txt](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/requirements.txt)
+
+- Download the pretrained vector `glove.6B.zip` from [here](https://nlp.stanford.edu/projects/glove/) and extract off the `glove.6B.100d` file into the working directory.
 
 At this point, you can run `jupter notebook` and run the notebooks interactively. You can also run the luigi solution by doing
 ```
@@ -115,7 +117,7 @@ This notebook tries to address the first question in the problem set - classifyi
 - Tried several **shallow learning** classifiers - Logistic Regression, Naive Bayes, SVM, Gradient Boosting (XGBoost) and Random Forest and attempted to take an ensemble of the ones that performed best
 - Feature engineering involved vectorizing text (**expense description** field) as TF-IDF ventors and using other fields like day_of_week, expense amount, employee ID and tax name. I didn't use n-grams here, but that's possibly an improvement option
 - Tried the classifiers in a two-fold approach - with all features and with only text features
-- Tried with Grid Search cross validation and tuning several parameters like regularization factor, number of estimators etc
+- Tried with Grid Search cross validation (used `LeaveOneOut` since pretty small data) and tuning several parameters like regularization factor, number of estimators etc
 - Most classifiers worked better with only text features, indicating that the **expense description** text field is the key field for classification here, and that goes right with common intuition
 - XGBoost didn't perform as well as I had anticipated
 - My personal pick of the classifiers in this case would be Random forest based on the performance (although I tried a further ensemle of Random Forest with SVM amd Logistic Regression)
@@ -137,6 +139,7 @@ This notebook tries to address the second problem in the problem set - identifyi
 
 - Decided to use **K-means**
 - Extracted holiday (not in a very proper way), along with employee ID and role, and most importantly, again, the text features. This time concatenated **expense description** and **category**
+- Tried with tf-idf vectorizer and a pre-trained embedding
 - 15 data points in business cluster and 9 in personal cluster
 - Resulting clusters kind of makes sense as has been described in the notebook
 - Tried the cluster model on the validation data as well and that sort of makes sense as well
@@ -173,6 +176,6 @@ The solution is nowhere close to production-ready and can be further modularized
 
 ## Conclusion
 
-I have tried different approaches of addressing the solutions. The datasets were very small and nothing I experimented here is conclusive. I have learnt from my experience and real work that models that perform well on small data are not necessarily best for tackling real big data. Also, there is a myriad of ways of improving things.
+I have tried different approaches of addressing the solutions. Overall performance were fairly good, however, the datasets were very small and nothing I experimented here is conclusive. I have learnt from my experience and real work that models that perform well on small data are not necessarily best for tackling real big data. Also, there is a myriad of ways of improving things.
 
 I am not particularly proud of anything, however, I am glad that I went through the exercise and learnt a lot in the process. I hope I get a chance to present myself in person and discuss in more detail.
