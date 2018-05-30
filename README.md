@@ -75,7 +75,7 @@ Evaluation of your submission will be based on the following criteria.
 
 My solution is python 3 based and I have presented my solution in 2 ways:
 
-- Jupyter Notebooks for more interactivity
+- Jupyter Notebooks for more interactivity and details
 - A [luigi](https://github.com/spotify/luigi) based solution that kind of simulates (not quite) a real production type run 
 
 Before proceeding, please install/setup the pre-requisites below. I developed this on a Mac. For linux, the steps should be mostly same, except the XGBoost installation might be a bit different.
@@ -98,3 +98,54 @@ At this point, you can run `jupter notebook` and run the notebooks interactively
 cd luigi
 ./run.sh
 ```
+## Solution Overview
+
+There are 4 Jupyter notebooks:
+- [classification.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/clasification.ipynb)
+- [classification_attemp_with_deep_learning.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/classification_attemp_with_deep_learning.ipynb)
+- [clustering_personal_business.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/clustering_personal_business.ipynb)
+- [spark_random_forest.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/spark_random_forest.ipynb)
+
+And a folder called [luigi](https://github.com/asif31iqbal/ml-challenge-expenses/tree/master/luigi) that has a luigi based solution. Let's go through an overview of each of these.
+
+### classification.ipynb
+
+This notebook tries to address the first question in the problem set - classifying the data points into the right category. **Please follow the cell by cell detailed guideline to walk thruogh it**. Key summary points are:
+- Intuitively the **expense description** field seems to be the best determiner
+- Tried several **shallow learning** classifiers - Logistic Regression, Naive Bayes, SVM, Gradient Boosting (XGBoost) and Random Forest and attempted to take an ensemble of the ones that performed best
+- Feature engineering involved vectorizing text (**expense description** field) as TF-IDF ventors and using other fields like day_of_week, expense amount, employee ID and tax name. I didn't use n-grams here, but that's possibly an improvement option
+- Tried the classifiers in a two-fold approach - with all features and with only text features
+- Tried with Grid Search cross validation and tuning several parameters like regularization factor, number of estimators etc
+- Most classifiers worked better with only text features, indicating that the **expense description** text field is the key field for classification here, and that goes right with common intuition
+- XGBoost didn't perform as well as I had anticipated
+- My personal pick of the classifiers in this case would be Random forest based on the performance (although I tried a further ensemle of Random Forest with SVM amd Logistic Regression)
+- Target categories are skeweed in distribution (like **Meals and Entertainment** being the majority of it), so **accuracy** alone is not enough. Considered **precision** and **recall** as additional useful performance measures
+- Achieved an accuracy of **100%** on the training data and **91.67%** on the validation data,and an average of **93%** precision and **92%** recall and **91%** f1-score
+- I do understand that with bigger data and more intelligent feature engineering, the performance and prediction can change and nothing here is necessarily conclusive.
+
+### classification_attemp_with_deep_learning.ipynb
+
+This notebook tries to address the same problem as the previous one, but this time using **Deep Learning** using **Keras**. This notebook is not documented in detail, but I get a chance I can explain more in person. Key summary points are:
+- Tried a simple 3-layer ANN with all features (non-text and text, with text vectorized using scikit learn's TfIdfVectorizer)
+- Tried a simple 3-layer ANN with only text features (with text vectorized using Keras's text to matrix binary vectorizer)
+- Tried a RNN with LSTM with a pre-trained embedding layer and only text features (with text vectorized using Keras's text to matrix binary vectorizer)
+- The accuracy, precision, recall and f1-score that was acieved was the exact same as the one earned with the previous shallow learning approach
+
+### clustering_personal_business.ipynb
+
+This notebook tries to address the second problem in the problem set - identifying expenses as either personal or business. **Please follow the cell by cell detailed guideline to walk thruogh it**. Key summary points:
+
+- Decided to use **K-means**
+- Extracted holiday (not in a very proper way), along with employee ID and role, and most importantly, again, the text features. This time concatenated **expense description** and **category**
+- 15 data points in business cluster and 9 in personal cluster
+- Resulting clusters kind of makes sense as has been described in the notebook
+- Tried the cluster model on the validation data as well and that sort of makes sense as well
+
+## spark_random_forest.ipynb
+
+This notebook tries to address the bonus of problem of running one solutio via spark. For this I tried implementing the classification problem. This notebook is not very well documented, I can explain in person if I get the chance. Key summary points:
+
+- Although in the original solution I tried several approaches, i only used Random firests here to keep things simple as I am very new to using Spark's ML library
+- Only used text TF-IDF features
+- Training Accuracy **87.5%**, validation accuracy **83.33%**, precision **100%**, **83%** and f1-score **91%**
+- Tons of improvement possible
