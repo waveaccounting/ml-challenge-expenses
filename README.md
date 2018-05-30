@@ -92,6 +92,8 @@ brew install gcc
 brew install gcc@5
 ```
 - Now install the packages in [requirements.txt](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/requirements.txt)
+For Mac OSX Sierra or higher, you might need to do this for XGBoost:
+`env CC=gcc-5 CXX=g++-5 pip install xgboost`
 
 - Download the pretrained vector `glove.6B.zip` from [here](https://nlp.stanford.edu/projects/glove/) and extract off the `glove.6B.100d` file into the working directory. **Note that this file is not included in the repo since it's too big. You do need to download it**
 
