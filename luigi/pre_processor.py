@@ -20,6 +20,14 @@ class PreProcess(luigi.Task):
     input_path = luigi.Parameter()
 
     def output(self):
+        """        
+        :return: a dictionary of 5 files:
+        vectorized training data
+        vectorized validation data
+        vectorized training data with only tf-idf features
+        vectorized validation data with only tf-idf features
+        a labels files including training and validation labels
+        """
         return {
             'train_x': LocalTarget(os.path.join(self.output_path, 'train_processed.csv')),
             'train_x_tfidf': LocalTarget(os.path.join(self.output_path, 'train_processed_tfidf.csv')),
