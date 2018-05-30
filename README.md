@@ -115,8 +115,8 @@ And a folder called [luigi](https://github.com/asif31iqbal/ml-challenge-expenses
 ### classification.ipynb
 
 This notebook tries to address the first question in the problem set - classifying the data points into the right category. **Please follow the cell by cell detailed guideline to walk thruogh it**. Key summary points are:
-- Intuitively the **expense description** field seems to be the best determiner
-- Tried several **shallow learning** classifiers - Logistic Regression, Naive Bayes, SVM, Gradient Boosting (XGBoost) and Random Forest and attempted to take an ensemble of the ones that performed best
+- Intuitively the **expense description** field seems to be the best determiner, hinting that this problem is possibly a good cancidate for **NLP**
+- Tried several **shallow learning** classifiers - Logistic Regression, Naive Bayes, SVM (with a linear kernel), Gradient Boosting (XGBoost) and Random Forest and attempted to take an ensemble of the ones that performed best
 - Feature engineering involved vectorizing text (**expense description** field) as TF-IDF ventors and using other fields like day_of_week, expense amount, employee ID and tax name. I didn't use n-grams here, but that's possibly an improvement option
 - Tried the classifiers in a two-fold approach - with all features and with only text features
 - Tried with Grid Search cross validation (used `LeaveOneOut` since pretty small data) and tuning several parameters like regularization factor, number of estimators etc
@@ -180,4 +180,4 @@ The solution is nowhere close to production-ready and can be further modularized
 
 I have tried different approaches of addressing the solutions. Overall performance were fairly good, however, the datasets were very small and nothing I experimented here is conclusive. I have learnt from my experience and real work that models that perform well on small data are not necessarily best for tackling real big data. Also, there is a myriad of ways of improving things.
 
-I am not particularly proud of anything, however, I am glad that I went through the exercise and learnt a lot in the process. I hope I get a chance to present myself in person and discuss in more detail.
+I am not particularly proud of anything, however, I am glad that I went through the exercise and learnt a lot in the process. It was particularly interesting in finding that the **text features** alone seemed to solve the problems to a great extent. However, with better feature engineering and combining those with the text features, better results are surely possible. I hope I get a chance to present myself in person and discuss in more detail.
