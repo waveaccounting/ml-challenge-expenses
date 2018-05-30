@@ -69,15 +69,32 @@ Evaluation of your submission will be based on the following criteria.
 5. Did you separate any concerns in your application? Why or why not?
 6. Does your solution use appropriate datatypes for the problem as described? 
 
-## Asif's Notes
+# Asif's Notes
 
-### Instructions
+## Instructions
 
 My solution is python 3 based and I have presented my solution in 2 ways:
 
 - Jupyter Notebooks for more interactivity
 - A [luigi](https://github.com/spotify/luigi) based solution that kind of simulates (not quite) a real production type run 
 
-For both, you need to have the packages in [requirements.txt](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/requirements.txt) installed:
+Before proceeding, please install/setup the pre-requisites below. I developed this on a Mac. For linux, the steps should be mostly same, except the XGBoost installation might be a bit different.
 
-`pip install -r requirements.txt`
+### Pre-requisites
+
+- Clone/download this repository and make it the working directory
+- Install python 3 `brew install python3`
+- Install virtual environment `pip3 install virtualenv`
+- Create a virtual env `virtualenv venv` and activate it `source venv/bin/activate`
+- Do the following as apre-requisite for XGBoost
+```
+brew install gcc
+brew install gcc@5
+```
+- Now install the packages in [requirements.txt](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/requirements.txt)
+
+At this point, you can run `jupter notebook` and run the notebooks interactively. You can also run the luigi solution by doing
+```
+cd luigi
+./run.sh
+```
