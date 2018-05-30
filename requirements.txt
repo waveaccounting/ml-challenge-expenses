@@ -1,0 +1,11 @@
+numpy==1.13.3
+pandas
+scikit-learn
+pyspark==2.3.0
+matplotlib
+xgboost
+jupyter
+tensorflow
+keras
+nltk
+luigi
