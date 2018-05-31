@@ -1,0 +1,25 @@
+date,category,employee id,expense description,pre-tax amount,tax name,tax amount
+11/1/2016,Travel,7,Taxi ride,40.00,NY Sales tax,3.55
+11/15/2016,Meals and Entertainment,1,Team lunch,235.00,CA Sales tax,30.55
+11/30/2016,Computer - Hardware,3,HP Laptop Computer,999.00,CA Sales tax,129.87
+11/14/2016,Computer - Software,3,Microsoft Office,899.00,CA Sales tax,116.87
+11/6/2016,Computer - Software,4,Dropbox Subscription,50.00,CA Sales tax,6.5
+11/3/2016,Computer - Software,3,Dropbox Subscription,50.00,CA Sales tax,6.5
+12/9/2016,Meals and Entertainment,6,Coffee with Steve,300.00,CA Sales tax,39
+11/12/2016,Travel,4,Taxi ride,230.00,CA Sales tax,29.9
+11/21/2016,Meals and Entertainment,7,Client dinner,200.00,NY Sales tax,17.75
+10/4/2016,Travel,6,Flight to Miami,200.00,CA Sales tax,26
+10/12/2016,Computer - Hardware,7,Macbook Air Computer,1999.00 ,NY Sales tax,177.41
+12/11/2016,Computer - Software,1,iCloud Subscription,15.00,CA Sales tax,1.95
+9/18/2016,Travel,1,Taxi ride,60.00,CA Sales tax,7.8
+9/30/2016,Office Supplies,3,Paper,200.00,CA Sales tax,26
+12/30/2016,Meals and Entertainment,4,Dinner with potential client,200.00,CA Sales tax,26
+11/6/2016,Computer - Hardware,6,iPhone,200.00,CA Sales tax,26
+11/7/2016,Travel,1,Airplane ticket to NY,200.00,CA Sales tax,26
+12/3/2016,Meals and Entertainment,5,Starbucks coffee,4.00,CA Sales tax,0.52
+12/18/2016,Travel,6,Airplane ticket to NY,1500.00 ,CA Sales tax,195
+12/15/2016,Meals and Entertainment,4,Dinner with client,200.00,CA Sales tax,26
+12/1/2016,Meals and Entertainment,4,Dinner,210.00,CA Sales tax,27.3
+12/8/2016,Meals and Entertainment,4,Dinner,180.00,CA Sales tax,23.4
+12/31/2016,Meals and Entertainment,4,Dinner,1000.00,CA Sales tax,130
+12/9/2016,Meals and Entertainment,4,Dinner,30.00,CA Sales tax,3.9

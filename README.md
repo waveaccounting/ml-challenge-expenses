@@ -68,3 +68,116 @@ Evaluation of your submission will be based on the following criteria.
 4. What design decisions did you make when designing your models? Why (i.e. were they explained)?
 5. Did you separate any concerns in your application? Why or why not?
 6. Does your solution use appropriate datatypes for the problem as described? 
+
+# Asif's Notes
+
+## Instructions
+
+My solution is python 3 based and I have presented my solution in 2 ways:
+
+- Jupyter Notebooks for more interactivity and details
+- A [luigi](https://github.com/spotify/luigi) based solution that kind of simulates (not quite) a real production type run 
+
+Before proceeding, please install/setup the pre-requisites below. I developed this on a Mac. For linux, the steps should be mostly same, except the XGBoost installation might be a bit different.
+
+### Pre-requisites
+
+- Clone/download this repository and make it the working directory
+- Install python 3 `brew install python3`
+- Install virtual environment `pip3 install virtualenv`
+- Create a virtual env `virtualenv venv` and activate it `source venv/bin/activate`
+- Do the following as a pre-requisite for XGBoost
+```
+brew install gcc
+brew install gcc@5
+```
+- Now install the packages in [requirements.txt](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/requirements.txt)
+For Mac OSX Sierra or higher, you might need to do this for XGBoost:
+`env CC=gcc-5 CXX=g++-5 pip install xgboost`
+
+- Download the pretrained vector `glove.6B.zip` from [here](https://nlp.stanford.edu/projects/glove/) and extract off the `glove.6B.100d` file into the working directory. **Note that this file is not included in the repo since it's too big. You do need to download it**
+
+At this point, you can run `jupter notebook` and run the notebooks interactively. You can also run the luigi solution by doing
+```
+cd luigi
+./run.sh
+```
+## Solution Overview
+
+There are 4 Jupyter notebooks:
+- [classification.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/clasification.ipynb)
+- [classification_attemp_with_deep_learning.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/classification_attemp_with_deep_learning.ipynb)
+- [clustering_personal_business.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/clustering_personal_business.ipynb)
+- [spark_random_forest.ipynb](https://github.com/asif31iqbal/ml-challenge-expenses/blob/master/spark_random_forest.ipynb)
+
+And a folder called [luigi](https://github.com/asif31iqbal/ml-challenge-expenses/tree/master/luigi) that has a luigi based solution. Let's go through an overview of each of these.
+
+### classification.ipynb
+
+This notebook tries to address the first question in the problem set - classifying the data points into the right category. **Please follow the cell by cell detailed guideline to walk thruogh it**. Key summary points are:
+- Intuitively the **expense description** field seems to be the best determiner, hinting that this problem is possibly a good cancidate for **NLP**
+- Tried several **shallow learning** classifiers - Logistic Regression, Naive Bayes, SVM (with a linear kernel), Gradient Boosting (XGBoost) and Random Forest and attempted to take an ensemble of the ones that performed best
+- Feature engineering involved vectorizing text (**expense description** field) as TF-IDF ventors and using other fields like day_of_week, expense amount, employee ID and tax name. I didn't use n-grams here, but that's possibly an improvement option
+- Tried the classifiers in a two-fold approach - with all features and with only text features
+- Tried with Grid Search cross validation (used `LeaveOneOut` since pretty small data) and tuning several parameters like regularization factor, number of estimators etc
+- Most classifiers worked better with only text features, indicating that the **expense description** text field is the key field for classification here, and that goes right with common intuition
+- XGBoost didn't perform as well as I had anticipated
+- My personal pick of the classifiers in this case would be Random forest based on the performance (although I tried a further ensemle of Random Forest with SVM amd Logistic Regression)
+- Target categories are skeweed in distribution (like **Meals and Entertainment** being the majority of it), so **accuracy** alone is not enough. Considered **precision** and **recall** as additional useful performance measures
+- Achieved an accuracy of **100%** on the training data and **91.67%** on the validation data,and an average of **93%** precision and **92%** recall and **91%** f1-score
+- I do understand that with bigger data and more intelligent feature engineering, the performance and prediction can change and nothing here is necessarily conclusive.
+
+### classification_attemp_with_deep_learning.ipynb
+
+This notebook tries to address the same problem as the previous one, but this time using **Deep Learning** using **Keras**. This notebook is not documented in detail, but I get a chance I can explain more in person. Key summary points are:
+- Tried a simple 3-layer ANN with all features (non-text and text, with text vectorized using scikit learn's TfIdfVectorizer)
+- Tried a simple 3-layer ANN with only text features (with text vectorized using Keras's text to matrix binary vectorizer)
+- Tried a RNN with LSTM with a pre-trained embedding layer and only text features (with text vectorized using Keras's text to matrix binary vectorizer)
+- The accuracy, precision, recall and f1-score that was acieved was the exact same as the one earned with the previous shallow learning approach
+
+### clustering_personal_business.ipynb
+
+This notebook tries to address the second problem in the problem set - identifying expenses as either personal or business. **Please follow the cell by cell detailed guideline to walk thruogh it**. Key summary points:
+
+- Decided to use **K-means**
+- Extracted holiday (not in a very proper way), along with employee ID and role, and most importantly, again, the text features. This time concatenated **expense description** and **category**
+- Tried with tf-idf vectorizer and a pre-trained embedding
+- 15 data points in business cluster and 9 in personal cluster
+- Resulting clusters kind of makes sense as has been described in the notebook
+- Tried the cluster model on the validation data as well and that sort of makes sense as well
+
+### spark_random_forest.ipynb
+
+This notebook tries to address the bonus of problem of running one solutio via spark. For this I tried implementing the classification problem. This notebook is not very well documented, I can explain in person if I get the chance. Key summary points:
+
+- Although in the original solution I tried several approaches, i only used Random firests here to keep things simple as I am very new to using Spark's ML library
+- Only used text TF-IDF features
+- Training Accuracy **87.5%**, validation accuracy **83.33%**, precision **100%**, **83%** and f1-score **91%**
+- Tons of improvement possible
+
+## Luigi Solution
+
+[Luigi](Luigi is a Python package that helps you build complex pipelines of batch jobs). I used it to manifest how a real production type pipeline can be developed. I have only included the prediction (classification) pipeline here, not the clustering. However, the clustering can be easily incorporated with some additional effort. The solution is in the `luigi` subfolder. The code is basically taken from the Classification notebook but aranged in a more modular format.
+
+### Classes
+
+- **PreProcessor** pre-processes and vectorizes the data and generates vectorized files
+        - train_processed.csv:  vectorized training data
+        - validation_processed.csv: vectorized validation data
+        - train_processed_tfidf.csv: vectorized training data with only tf-idf features
+        - validation_processed_tfidf.csv: vectorized validation data with only tf-idf features
+        - labels.pkl: a labels files including training and validation labels
+- **Predictor** does the actual classification and generates result files
+	- report.txt: report contaning accuracy and other measurements
+	- comparison.csv: file showing actual and predicted categories side by side
+
+Sample output files are provided with the solution. You can delete those files and rerun `run.sh` to run the entore workflow.
+
+The solution is nowhere close to production-ready and can be further modularized and enhanced in a million way. This was just a manifestation of how pipelines can be developed with modularized tasks.
+
+
+## Conclusion
+
+I have tried different approaches of addressing the solutions. Overall performance were fairly good, however, the datasets were very small and nothing I experimented here is conclusive. I have learnt from my experience and real work that models that perform well on small data are not necessarily best for tackling real big data. Also, there is a myriad of ways of improving things.
+
+I am not particularly proud of anything, however, I am glad that I went through the exercise and learnt a lot in the process. It was particularly interesting in finding that the **text features** alone seemed to solve the problems to a great extent. However, with better feature engineering and combining those with the text features, better results are surely possible. I hope I get a chance to present myself in person and discuss in more detail.

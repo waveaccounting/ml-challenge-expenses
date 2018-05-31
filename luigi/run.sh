@@ -1,0 +1,1 @@
+python luigi_solution.py --input-path . --output-path .

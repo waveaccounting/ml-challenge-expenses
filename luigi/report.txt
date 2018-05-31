@@ -1,0 +1,11 @@
+Training Score: 100.0 %
+Validation Score: 91.66666666666666 %
+
+                         precision    recall  f1-score   support
+
+    Computer - Hardware       1.00      1.00      1.00         1
+Meals and Entertainment       0.88      1.00      0.93         7
+        Office Supplies       1.00      0.50      0.67         2
+                 Travel       1.00      1.00      1.00         2
+
+            avg / total       0.93      0.92      0.91        12
