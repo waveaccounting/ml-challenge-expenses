@@ -106,10 +106,12 @@ I have not written a code for solving this problem, rather I have proposed a com
 2. Expense Description - This column provides the prediction features
 
 ### Directions to Run the Algorithm
-1. Downlaod the code base to a working directory
-2. Launch Jupyter notebook from working directory
-3. Open Spark_ML_Launchpad.ipynb file, change the training and validation file paths under "Split Raw data into Predictors and Response" section of the notebook, to a path applicable in end user machine
-4. Make sure Spark is installed and .bashrc file is updated to have Spark_HOME environment variable. 
+1. Spark machine learning code is under the folder Spark_Design
+2. Downlod the code base to a working directory
+3. Launch Jupyter notebook from working directory
+4. Open Spark_ML_Launchpad.ipynb file, change the training and validation file paths under "Split Raw data into Predictors and Response" section of the notebook, to a path applicable in end user machine
+5. Make sure Spark is installed and .bashrc file is updated to have Spark_HOME environment variable. 
+6. Execute the Spark_ML_Launchpad.ipynb one cell at a time to evaluate results
 
 ### Algorithm approach
 1. Data Ingestion and Extraction, loading a CSV file is straightforward with Spark csv packages. 
