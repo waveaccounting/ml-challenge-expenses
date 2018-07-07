@@ -1,3 +1,22 @@
+A detailed solution to the classification task (as described below) is detailed within the classification notebook. To run the notebook with any csv file of the same format, perform the following steps:
+
+1. Change the name of the csv files in cell [2] of the notebook (right below the Data header) to the name of the required files.
+2. Run the notebook by clicking Cell -> Run All.
+
+I used two algorithms for the classification problem: random forest and xgboost. 
+
+1. Random Forest Classifier: This is an ensemble learning technique that works by constructing several decision trees at training time and outputting - for classification problems - the class that is the mode of the classes of the individual trees. It works well with a mixture of numerical and categorical features (such as the dataset used here). One of its advantages is that the trees can be decorrelated, which automatically helps with multi-collinearity of features; a disadvantage is that it is not easy to interpret visually. The performance of this model on the validation data was impressive, with an accuracy and f1-score of 1.0. 
+
+2. XGBoost Classifier: It implements gradient boosted decision trees for classification. There are many hyperparameters that can be tuned (including regularization strength and learning rate), giving it a lot flexibility. Another cool aspect (which I did not exploit) is it allows you to implement your own custom loss functions. Much like random forests, xgboost is also very capable of handling categorical features. Now I am very new to xgboost, so I honestly can't think of any cons aside from the confusion that may arise from dealing with so many hyperparameters. Its performance was also equally impressive: an accuracy and f1-score of 1.0. 
+
+Both classifiers performed seemingly well on the toy validation sets, so there isn't much to say in terms of comparing the two models (at least not on this dataset). However, xgboost is known to utilize a plethora of hyperparameters that can be fine-tuned to achieve better performance than random forests.
+
+In conclusion, I am overall pleased with the content and results of this analysis. While I only tackled the classification task, I believe I did a thorough job with feature selection and model evaluation, and in making the project descriptive and readable. 
+
+- Mayank Bhatia
+
+==========================
+
 ML Challenge Markdown
 # Wave Machine Learning Engineer Challenge
 Applicants for the Software Engineer (and Senior), Machine Learning(https://wave.bamboohr.co.uk/jobs/view.php?id=1) role at Wave must complete the following challenge, and submit a solution prior to the onsite interview. 
