@@ -1,0 +1,6 @@
+numpy >= 1.14
+tensorflow >= 1.9
+tensorboard >= 1.9
+pandas
+importlib
+PyYAML

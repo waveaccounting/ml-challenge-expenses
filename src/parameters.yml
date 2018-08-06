@@ -1,0 +1,25 @@
+model_param:
+    model_type: fc
+    
+# model specific params
+fc:
+    batch_norm: True
+    drop_out: False
+    drop_out_rate: 0.50
+    layers: [1000,1000,1000]
+    reg_type: None
+    reg_strength: 0.005 
+    residual: True
+    
+    
+solver_param:
+    id: simple_model
+    batch_size: 10
+    learning_rate: 0.1
+    read_out: 500                
+    model_check_point: 1000
+    validation_check_point: 100
+    epoch: 5000
+
+    
+    
