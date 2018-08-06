@@ -1,4 +1,11 @@
-ML Challenge Markdown
+
+A README and solution to the challenge has been provided in src. Please 
+accept my submission.
+
+Thanks!
+
+
+
 # Wave Machine Learning Engineer Challenge
 Applicants for the Software Engineer (and Senior), Machine Learning(https://wave.bamboohr.co.uk/jobs/view.php?id=1) role at Wave must complete the following challenge, and submit a solution prior to the onsite interview. 
 
