@@ -144,11 +144,3 @@ class Data:
         output_targets = pd.DataFrame()
         output_targets["category"] = self.one_hot(self.transaction_dataframe["category"])
         return output_targets
-
-
-if __name__ == "__main__":
-    training_data_example = "./training_data_example.csv"
-    train_data = Data(training_data_example)
-    training_features = train_data.create_features()
-    training_targets = train_data.create_targets()
-    print(training_features)
