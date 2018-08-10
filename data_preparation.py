@@ -83,6 +83,7 @@ class Data:
         selected_features["tax amount"] = self.transaction_dataframe["tax amount"]
         # create a synthetic feature of tax ratio
         selected_features["tax ratio"] = round(selected_features["tax amount"] / selected_features["pre-tax amount"], 2)
+        selected_features["description"] = self.one_hot(self.word2vec)
         return selected_features
 
     def create_targets(self):
@@ -94,6 +95,7 @@ class Data:
 if __name__ == "__main__":
     training_data_example = "./training_data_example.csv"
     train_data = Data(training_data_example)
-    training_features = train_data.create_features
+    training_features = train_data.create_features()
     training_targets = train_data.create_targets()
+    print(training_features)
 
