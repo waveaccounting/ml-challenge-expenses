@@ -65,13 +65,13 @@ class Data:
         return transaction_dataframe
 
     @staticmethod
-    def one_hot(column):
+    def one_hot(column, prefix=None):
         """
         create one hot encoding for discrete or string labels/feature
         :param column: specified vector to be encoded
         :return: one-hot encoded label/feature
         """
-        return pd.get_dummies(column).values.tolist()
+        return pd.get_dummies(column, prefix=prefix)
 
     @property
     def word2vec(self):
@@ -127,13 +127,13 @@ class Data:
         :return: features
         """
         selected_features = pd.DataFrame()
-        selected_features["employee id"] = self.one_hot(self.transaction_dataframe["employee id"])
         selected_features["pre-tax amount"] = self.transaction_dataframe["pre-tax amount"]
-        selected_features["tax name"] = self.one_hot(self.transaction_dataframe["tax name"])
         selected_features["tax amount"] = self.transaction_dataframe["tax amount"]
         # create a synthetic feature of tax ratio
-        selected_features["tax ratio"] = round(selected_features["tax amount"] / selected_features["pre-tax amount"], 2)
-        selected_features["description"] = self.one_hot(self.word2vec)
+        selected_features["tax ratio"] = selected_features["tax amount"] / selected_features["pre-tax amount"]
+        selected_features = pd.concat(
+            [selected_features, self.one_hot(self.transaction_dataframe["tax name"], prefix="tax name")], axis=1)
+        # selected_features = pd.concat([selected_features, self.one_hot(self.word2vec, prefix="description")], axis=1)
         return selected_features
 
     def create_targets(self):
@@ -141,6 +141,5 @@ class Data:
         create one-hot encoded labels for each sample
         :return: labels
         """
-        output_targets = pd.DataFrame()
-        output_targets["category"] = self.one_hot(self.transaction_dataframe["category"])
+        output_targets = self.one_hot(self.transaction_dataframe["category"], prefix="description")
         return output_targets
