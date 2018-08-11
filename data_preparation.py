@@ -1,7 +1,5 @@
 import pandas as pd
 from nltk.corpus import stopwords
-import numpy as np
-import os
 
 # global variable that contains all the stop words (articles, prepositions and ...)
 stop_words = set(stopwords.words('english'))
@@ -38,6 +36,23 @@ class PrepareDataset(DataFrame):
         DataFrame.__init__(self, data_file, employee_file)
         self.phase = phase
         self.transaction_dataframe = self.merge_data_frames
+
+    @property
+    def phase(self):
+        """
+        getter for phase
+        :return specified phase
+        """
+        return self._phase
+
+    @phase.setter
+    def phase(self, value):
+        """
+        setter for phase (assign value to phase)
+        :param value: specified phase (train or validation)
+        """
+        assert value.lower() in ["train", "validation"]
+        self._phase = value.lower()
 
     @staticmethod
     def one_hot(column, prefix=None):
@@ -117,5 +132,5 @@ class PrepareDataset(DataFrame):
         create one-hot encoded labels for each sample
         :return: labels
         """
-        output_targets = self.transaction_dataframe["category"]
+        output_targets = self.one_hot(self.transaction_dataframe["category"])
         return output_targets
