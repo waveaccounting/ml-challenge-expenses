@@ -21,6 +21,10 @@ class DataFrame:
 
     @property
     def merge_data_frames(self):
+        """
+        merge employee data-frame to other data-frames
+        :return:
+        """
         transaction_data_frame = self.parse_csv(self.data_file)
         employee_data_frame = self.parse_csv(self.employee_file)
         merged_data_frame = pd.merge(transaction_data_frame, employee_data_frame, how='inner', on="employee id")

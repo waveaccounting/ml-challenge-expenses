@@ -1,11 +1,10 @@
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
 import numpy as np
 import argparse
 import sys
 import os
 
 from data_preparation import *
+from classifiers import *
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -30,6 +29,7 @@ if __name__ == "__main__":
         x_validation = validation.create_features()
         y_validation_one_hot = validation.create_targets()
 
+        # align train and validation data-frames to fill the missing features and labels
         x_train, x_validation = x_train.align(x_validation, axis=1, fill_value=0)
         y_train_one_hot, y_validation_one_hot = y_train_one_hot.align(y_validation_one_hot, axis=1, fill_value=0)
 
@@ -39,13 +39,15 @@ if __name__ == "__main__":
         y_train = [np.where(r == 1)[0][0] for r in y_train_one_hot]
         y_validation = [np.where(r == 1)[0][0] for r in y_validation_one_hot]
 
-        clf = RandomForestClassifier(n_estimators=5, criterion='entropy')
-        clf.fit(x_train, y_train)
-        y_pred_train = clf.predict(x_train)
-        print(accuracy_score(y_train, y_pred_train))
-        y_pred_validation = clf.predict(x_validation)
-        print(accuracy_score(y_validation, y_pred_validation))
+        train = Train(x_train, y_train)
+        models = {"KNN": train.knn, "Random Forest": train.random_forest, "SVM": train.svm}
+
+        for key, value in models.items():
+            acc_train = Validate(value, x_train, y_train).predict
+            acc_validation = Validate(value, x_validation, y_validation).predict
+            print("* Classification results of {0}: "
+                  "\n\t> Training accuracy = {1:.2f} "
+                  "\n\t> Validation accuracy = {2:.2f}\n".format(key, acc_train, acc_validation))
 
     except AssertionError as message:
         sys.exit(message)
-
