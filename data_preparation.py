@@ -7,68 +7,44 @@ import os
 stop_words = set(stopwords.words('english'))
 
 
-class Data:
-    def __init__(self, csv_file, phase="Train"):
-        """
-        :param csv_file: train or validation csv file
-        :param phase: train or validation (to shuffle data only for train phase)
-        """
-        self.csv_file = csv_file
-        self.phase = phase
-        self.transaction_dataframe = self.parse_csv
+class DataFrame:
+    def __init__(self, data_file, employee_file):
+        self.data_file = data_file
+        self.employee_file = employee_file
 
-    @property
-    def csv_file(self):
-        """
-        getter for csv_file
-        :return path to the csv file
-        """
-        return self._csv_file
-
-    @csv_file.setter
-    def csv_file(self, value):
-        """
-        setter for csv_file (assign value to csv_file)
-        :param value: a csv file
-        """
-        assert os.path.exists(os.path.normpath(value)), "csv file not found"
-        self._csv_file = os.path.normpath(value)
-
-    @property
-    def phase(self):
-        """
-        getter for phase
-        :return specified phase
-        """
-        return self._phase
-
-    @phase.setter
-    def phase(self, value):
-        """
-        setter for phase (assign value to phase)
-        :param value: specified phase (train or validation)
-        """
-        assert value.lower() in ["train", "validation"]
-        self._phase = value.lower()
-
-    @property
-    def parse_csv(self):
+    @staticmethod
+    def parse_csv(csv_file):
         """
         parse csv file and shuffle it if the specified phase is train
         :return: data frame containing csv file data
         """
-        transaction_dataframe = pd.read_csv(self.csv_file)
-        if self.phase == "train":
-            np.random.seed(seed=0)
-            sample_size = transaction_dataframe.shape[0]
-            transaction_dataframe = transaction_dataframe.reindex(np.random.permutation(range(sample_size)))
+        transaction_dataframe = pd.read_csv(csv_file)
         return transaction_dataframe
+
+    @property
+    def merge_data_frames(self):
+        transaction_data_frame = self.parse_csv(self.data_file)
+        employee_data_frame = self.parse_csv(self.employee_file)
+        merged_data_frame = pd.merge(transaction_data_frame, employee_data_frame, how='inner', on="employee id")
+        return merged_data_frame
+
+
+class PrepareDataset(DataFrame):
+    def __init__(self, data_file, employee_file, phase="Train"):
+        """
+        :param csv_file: train or validation csv file
+        :param phase: train or validation (to shuffle data only for train phase)
+        """
+        DataFrame.__init__(self, data_file, employee_file)
+        self.phase = phase
+        self.transaction_dataframe = self.merge_data_frames
 
     @staticmethod
     def one_hot(column, prefix=None):
         """
         create one hot encoding for discrete or string labels/feature
         :param column: specified vector to be encoded
+        :param prefix: a name for column in data frame
         :return: one-hot encoded label/feature
         """
         return pd.get_dummies(column, prefix=prefix)
@@ -130,10 +106,10 @@ class Data:
         selected_features["pre-tax amount"] = self.transaction_dataframe["pre-tax amount"]
         selected_features["tax amount"] = self.transaction_dataframe["tax amount"]
         # create a synthetic feature of tax ratio
-        selected_features["tax ratio"] = selected_features["tax amount"] / selected_features["pre-tax amount"]
-        selected_features = pd.concat(
-            [selected_features, self.one_hot(self.transaction_dataframe["tax name"], prefix="tax name")], axis=1)
-        # selected_features = pd.concat([selected_features, self.one_hot(self.word2vec, prefix="description")], axis=1)
+        selected_features["tax ratio"] = round(self.transaction_dataframe["tax amount"] / self.transaction_dataframe["pre-tax amount"],2)
+        selected_features = pd.concat([selected_features, self.one_hot(self.transaction_dataframe["tax name"], prefix="tax name")], axis=1)
+        selected_features = pd.concat([selected_features, self.one_hot(self.transaction_dataframe["employee id"], prefix="employee id")], axis=1)
+        selected_features = pd.concat([selected_features, self.one_hot(self.word2vec, prefix="description")], axis=1)
         return selected_features
 
     def create_targets(self):
@@ -141,5 +117,5 @@ class Data:
         create one-hot encoded labels for each sample
         :return: labels
         """
-        output_targets = self.one_hot(self.transaction_dataframe["category"], prefix="description")
+        output_targets = self.transaction_dataframe["category"]
         return output_targets
