@@ -5,6 +5,36 @@ import os
 
 from data_preparation import *
 from classifiers import *
+from utiles import *
+
+
+def model_part_1(x_train, y_train, x_validation, y_validation):
+    train = Train(x_train, y_train)
+    models = {"KNN": train.knn, "Random Forest": train.random_forest,
+              "SVM": train.svm, "Logistic Regression": train.logistic_regression}
+
+    for key, value in models.items():
+        acc_train = Validate(value, x_train, y_train).predict
+        acc_validation = Validate(value, x_validation, y_validation).predict
+        print("* Classification results of {0}: "
+              "\n\t> Training accuracy = {1:.2f} "
+              "\n\t> Validation accuracy = {2:.2f}\n".format(key, acc_train, acc_validation))
+
+
+def model_part_2(x_train, x_validation):
+    pca = DimensionalityReduction(x_train).pca
+    x_train = pca.fit_transform(x_train)
+    x_validation = pca.fit_transform(x_validation)
+
+    x_train, x_validation = normalization(x_train, x_validation)
+    kmeans = Clustering(x_train).kmeans
+    centers = kmeans.cluster_centers_
+    y_pred_train = kmeans.predict(x_train)
+    y_pred_validation = kmeans.predict(x_validation)
+
+    plot(x_train, y_pred_train, centers, "Train")
+    plot(x_validation, y_pred_validation, centers, "Validation")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -39,16 +69,8 @@ if __name__ == "__main__":
         y_train = [np.where(r == 1)[0][0] for r in y_train_one_hot]
         y_validation = [np.where(r == 1)[0][0] for r in y_validation_one_hot]
 
-        train = Train(x_train, y_train)
-        models = {"KNN": train.knn, "Random Forest": train.random_forest,
-                  "SVM": train.svm, "Logistic Regression": train.logistic_regression}
-
-        for key, value in models.items():
-            acc_train = Validate(value, x_train, y_train).predict
-            acc_validation = Validate(value, x_validation, y_validation).predict
-            print("* Classification results of {0}: "
-                  "\n\t> Training accuracy = {1:.2f} "
-                  "\n\t> Validation accuracy = {2:.2f}\n".format(key, acc_train, acc_validation))
+        model_part_1(x_train, y_train, x_validation, y_validation)
+        model_part_2(x_train, x_validation)
 
     except AssertionError as message:
         sys.exit(message)

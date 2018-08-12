@@ -2,6 +2,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import linear_model
 from sklearn.svm import SVC
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from sklearn.cluster import KMeans
 from sklearn.metrics import accuracy_score
 
 
@@ -46,3 +49,31 @@ class Validate:
         y_pred_train = self.model.predict(self.data)
         accuracy = accuracy_score(self.label, y_pred_train)
         return accuracy
+
+
+class DimensionalityReduction:
+    def __init__(self, data):
+        self.data = data
+
+    @property
+    def pca(self):
+        model = PCA(n_components=2)
+        model.fit(self.data)
+        return model
+
+    @property
+    def tsne(self):
+        model = TSNE(n_components=2)
+        model.fit(self.data)
+        return model
+
+
+class Clustering:
+    def __init__(self, data):
+        self.data = data
+
+    @property
+    def kmeans(self):
+        model = KMeans(n_clusters=2)
+        model.fit(self.data)
+        return model
