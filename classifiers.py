@@ -1,5 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn import linear_model
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
@@ -24,6 +25,12 @@ class Train:
     @property
     def knn(self):
         model = KNeighborsClassifier(n_neighbors=5, weights='distance')
+        model.fit(self.data, self.label)
+        return model
+
+    @property
+    def logistic_regression(self):
+        model = linear_model.LogisticRegression(C=10.0)
         model.fit(self.data, self.label)
         return model
 

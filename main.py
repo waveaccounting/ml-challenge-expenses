@@ -40,7 +40,8 @@ if __name__ == "__main__":
         y_validation = [np.where(r == 1)[0][0] for r in y_validation_one_hot]
 
         train = Train(x_train, y_train)
-        models = {"KNN": train.knn, "Random Forest": train.random_forest, "SVM": train.svm}
+        models = {"KNN": train.knn, "Random Forest": train.random_forest,
+                  "SVM": train.svm, "Logistic Regression": train.logistic_regression}
 
         for key, value in models.items():
             acc_train = Validate(value, x_train, y_train).predict
