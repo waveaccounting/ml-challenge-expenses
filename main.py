@@ -14,8 +14,6 @@ def model_part_1(x_train, y_train, x_validation, y_validation):
               "SVM": train.svm, "Logistic Regression": train.logistic_regression}
 
     for key, value in models.items():
-        # accuracy_train, precision_train = Validate(value, x_train, y_train).predict
-        # accuracy_validation, precision_validation = Validate(value, x_validation, y_validation).predict
         print("Classification results of {0}: "
               "\n>> Training {1} "
               "\n>> Validation {2} \n{3}\n".format(key,
@@ -24,19 +22,19 @@ def model_part_1(x_train, y_train, x_validation, y_validation):
                                                    '-' * 55))
 
 
-def model_part_2(x_train, x_validation):
-    pca = DimensionalityReduction(x_train).pca
-    x_train = pca.fit_transform(x_train)
-    x_validation = pca.fit_transform(x_validation)
+def model_part_2(train_data, validation_data):
+    pca = DimensionalityReduction(train_data).pca
+    train_data = pca.fit_transform(train_data)
+    validation_data = pca.fit_transform(validation_data)
 
-    x_train, x_validation = normalization(x_train, x_validation)
-    kmeans = Clustering(x_train).kmeans
+    train_data, validation_data = normalization(train_data, validation_data)
+    kmeans = Clustering(train_data).kmeans
     centers = kmeans.cluster_centers_
-    y_pred_train = kmeans.predict(x_train)
-    y_pred_validation = kmeans.predict(x_validation)
+    pred_train = kmeans.predict(train_data)
+    pred_validation = kmeans.predict(validation_data)
 
-    plot(x_train, y_pred_train, centers, "Train")
-    plot(x_validation, y_pred_validation, centers, "Validation")
+    plot(train_data, pred_train, centers, "Train")
+    plot(validation_data, pred_validation, centers, "Validation")
 
 
 if __name__ == "__main__":
