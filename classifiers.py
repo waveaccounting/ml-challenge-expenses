@@ -5,7 +5,7 @@ from sklearn.svm import SVC
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, auc, classification_report
 
 
 class Train:
@@ -46,9 +46,13 @@ class Validate:
 
     @property
     def predict(self):
-        y_pred_train = self.model.predict(self.data)
-        accuracy = accuracy_score(self.label, y_pred_train)
-        return accuracy
+        y_pred = self.model.predict(self.data)
+        return y_pred
+
+    @property
+    def __str__(self):
+        accuracy = accuracy_score(self.label, self.predict)
+        return "Accuracy = {0:.2f} \n{1}".format(accuracy, classification_report(self.label, self.predict))
 
 
 class DimensionalityReduction:

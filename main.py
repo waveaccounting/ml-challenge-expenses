@@ -14,11 +14,14 @@ def model_part_1(x_train, y_train, x_validation, y_validation):
               "SVM": train.svm, "Logistic Regression": train.logistic_regression}
 
     for key, value in models.items():
-        acc_train = Validate(value, x_train, y_train).predict
-        acc_validation = Validate(value, x_validation, y_validation).predict
-        print("* Classification results of {0}: "
-              "\n\t> Training accuracy = {1:.2f} "
-              "\n\t> Validation accuracy = {2:.2f}\n".format(key, acc_train, acc_validation))
+        # accuracy_train, precision_train = Validate(value, x_train, y_train).predict
+        # accuracy_validation, precision_validation = Validate(value, x_validation, y_validation).predict
+        print("Classification results of {0}: "
+              "\n>> Training {1} "
+              "\n>> Validation {2} \n{3}\n".format(key,
+                                                   Validate(value, x_train, y_train).__str__,
+                                                   Validate(value, x_validation, y_validation).__str__,
+                                                   '-' * 55))
 
 
 def model_part_2(x_train, x_validation):
