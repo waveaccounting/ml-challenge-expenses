@@ -73,6 +73,8 @@ Evaluation of your submission will be based on the following criteria.
 In order to run application, you need to pass three csv file as command line argument when running the main.py or paste the line bellow in the same directory as the repository.
 python main.py path/to/training_data_example.csv path/to/validation_data_example.csv path/to/employee.csv
 
+If you want to see the results without running code, you can check "question_one_two.ipynb".
+
 ## Algorithm
 I have added a new feature to data frames which is called "tax ratio".
 
