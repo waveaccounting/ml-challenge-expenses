@@ -84,23 +84,23 @@ Question 2: My approach was based on unsupervised learning as the labels are not
 
 ## Overall Performance
 
-### Classification results of KNN:
+#### Classification results of KNN:
 Training accuracy = 1.00 | precision = 1.00 | recall = 1.00 | f1-score = 1.00
 Validation accuracy = 0.67 | precision = 0.75 | recall = 0.67 | f1-score = 0.69
 
-### Classification results of Random Forest: 
+#### Classification results of Random Forest: 
 
 Training accuracy = 0.96 | precision = 0.92 | recall = 0.96 | f1-score = 0.94
 
 Validation accuracy = 0.75 | precision = 0.83 | recall = 0.75 | f1-score = 0.79  
 
-### Classification results of SVM: 
+#### Classification results of SVM: 
 
 Training accuracy = 0.92 | precision = 0.90 | recall = 0.92 | f1-score = 0.90 
  
 Validation accuracy = 0.67 | precision = 0.54 | recall = 0.67 | f1-score = 0.56 
 
-### Classification results of Logistic Regression: 
+#### Classification results of Logistic Regression: 
 
 Training accuracy = 1.00 | precision = 1.00 | recall = 1.00 | f1-score = 1.00
 
