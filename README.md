@@ -68,3 +68,40 @@ Evaluation of your submission will be based on the following criteria.
 4. What design decisions did you make when designing your models? Why (i.e. were they explained)?
 5. Did you separate any concerns in your application? Why or why not?
 6. Does your solution use appropriate datatypes for the problem as described? 
+
+## How to run the application
+In order to run application, you need to pass three csv file as command line argument when running the main.py or paste the line bellow in the same directory as the repository.
+python main.py path/to/training_data_example.csv path/to/validation_data_example.csv path/to/employee.csv
+
+If you want to see the results without running code, you can check "question_one_two.ipynb".
+
+## Algorithm
+I have added a new feature to data frames which is called "tax ratio".
+
+Question 1: I have tried different machine learning algorithm (SVM, KNN, Random Forest and Logistic Regression). The main reason was the small size of the csv files, which prevent me from choosing deep learning based models. 
+
+Question 2: My approach was based on unsupervised learning as the labels are not provided in the task. First, reduced the dimensionality of the features to two principal components using PCA, then apply K-means clustering to them.
+
+## Overall Performance
+
+#### Classification results of KNN:
+Training accuracy = 1.00 | precision = 1.00 | recall = 1.00 | f1-score = 1.00
+Validation accuracy = 0.67 | precision = 0.75 | recall = 0.67 | f1-score = 0.69
+
+#### Classification results of Random Forest: 
+
+Training accuracy = 0.96 | precision = 0.92 | recall = 0.96 | f1-score = 0.94
+
+Validation accuracy = 0.75 | precision = 0.83 | recall = 0.75 | f1-score = 0.79  
+
+#### Classification results of SVM: 
+
+Training accuracy = 0.92 | precision = 0.90 | recall = 0.92 | f1-score = 0.90 
+ 
+Validation accuracy = 0.67 | precision = 0.54 | recall = 0.67 | f1-score = 0.56 
+
+#### Classification results of Logistic Regression: 
+
+Training accuracy = 1.00 | precision = 1.00 | recall = 1.00 | f1-score = 1.00
+
+Validation accuracy = 0.83 | precision = 0.79 | recall = 0.83 | f1-score = 0.79  
